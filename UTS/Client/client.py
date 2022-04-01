@@ -98,12 +98,12 @@ def kondisionalthread(datapemain,is_secure=True) :
 
 
 if __name__=='__main__':
-    thread_count = 1
+    thread_count = 20
     threads = []
     waktuawal = datetime.datetime.now()
 
     for thread in range(thread_count):
-        thread_baru = threading.Thread(target=kondisionalthread, args=(True,False))
+        thread_baru = threading.Thread(target=kondisionalthread, args=(True,True))
         threads.append(thread_baru)
         thread_baru.start()
         
@@ -112,4 +112,5 @@ if __name__=='__main__':
     
     waktu_akhir = datetime.datetime.now()
     print(f"Waktu TOTAL yang dibutuhkan {thread_count} thread. adalah {waktu_akhir - waktuawal}")
+
 
