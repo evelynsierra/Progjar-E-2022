@@ -4,7 +4,7 @@ import base64
 import logging
 import os.path
 
-server_address=('0.0.0.0',7777)
+server_address=('0.0.0.0',6666)
 
 def send_command(command_str=""):
     global server_address
@@ -47,20 +47,38 @@ def remote_list():
             print(f"- {nmfile}")
         return True
     else:
-        print("Gagal")
+        print("Gagal loh")
         return False
     
     
 # menghapus file
 def remote_delete(filename=""):
-    command_str=f"DELETE (filename)" # untuk menghapus file berdasarkan nama file
+    command_str=f"DELETE {filename}" # untuk menghapus file berdasarkan nama file
     hasil = send_command(command_str) # mengirimkan perintah untuk menghapus file
     if(hasil['status']=='OK'):
         print(hasil['data'])
         return True
-    print("Gagal")
+    print("Gagal loh")
     return False
 
+
+
+# upload file
+#def remote_post(filename=""):
+#    if not os.path.exists(filename):
+#        print(f"Gagal : file {filename} tidak ditemukan")
+#        return False
+#    fp = open(f"{filename}",'rb')
+#    filecontent = base64.b64encode(fp.read()).decode()
+#    
+#    command_str=f"POST {filename} {filecontent}"
+#    hasil = send_command(command_str)
+#    
+#    if (hasil['status']=='OK'):
+#        print(hasil['data'])
+#        return True
+#    print("Gagal")
+#    return False
 
 
 def remote_get(filename=""):
@@ -75,7 +93,7 @@ def remote_get(filename=""):
         fp.close()
         return True
     else:
-        print("Gagal")
+        print("Gagal loh")
         return False
 
 
@@ -85,7 +103,9 @@ if __name__=='__main__':
     #remote_get('donalbebek.jpg')
     
     # masukkan function untuk delete
-    remote_delete(filename="del.jpg")
+    #remote_delete(filename="del.jpg")
     remote_delete(filename="delete.jpg")
-
+    
+    # post file
+    #remote_post(filename="post.jpg")
 
