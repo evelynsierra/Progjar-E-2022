@@ -1,4 +1,4 @@
-import os, os.path
+import os
 import json
 import base64
 from glob import glob
@@ -26,19 +26,21 @@ class FileInterface:
         except Exception as e:
             return dict(status='ERROR',data=str(e))
     
-    def delete(self,params=[]):
-        if not (len(params) == 1):
-            return dict(status='ERROR',data='jumlah parameter harus satu') #jika parameter tidak sesuai
-        filename = params[0]
-        if not os.path.exists(filename):
-            return dict(status='ERROR',data=f'file {filename} tidak ditemukan') #jika parameter hanya satu
-        os.remove(filename)
-        return dict(status='OK',data=f'file {filename} berhasil dihapus')
+    #delete file
+    def delete(self, params=[]):
+        try :
+            filename = params[0]
+            if(filename == ''):
+                return None
+            os.remove(f"{filename}")
+            return dict(status="OK")
+        except Exception as e:
+            return dict(status='ERROR', data=str(e))
+
+
 
 if __name__=='__main__':
     f = FileInterface()
     print(f.list())
-    # print(f.get(['pokijan.jpg']))
-    
-    print(f.delete(['delete.jpg']))
+    print(f.get(['pokijan.jpg']))
 
