@@ -2,6 +2,7 @@ import socket
 import json
 import base64
 import logging
+import os
 
 server_address=('0.0.0.0',7777)
 
@@ -12,6 +13,7 @@ def send_command(command_str=""):
     logging.warning(f"connecting to {server_address}")
     try:
         logging.warning(f"sending message ")
+        command_str += "\r\n\r\n"
         sock.sendall(command_str.encode())
         # Look for the response, waiting until socket is done (no more data)
         data_received="" #empty string
@@ -75,10 +77,37 @@ def remote_delete(filename=""):
         return False
 
 
+# untuk upload file
+def remote_upload(filename=""):
+    if not os.path.exists(filename):
+        print(f"Gagal: file {filename} tidak ditemukan")
+        return False
+    fp = open(f"{filename}", 'rb')
+    filecontent = base64.b64encode(fp.read()).decode()
+    
+    
+    command_str = f"UPLOAD {filename} {filecontent}"
+    hasil = send_command(command_str)
+    
+    #print(hasil)
+    
+    if(hasil['status'] == 'OK'):
+        print(hasil['data'])
+        return True
+    
+    #print(hasil)
+    print("Gagal")
+    return False
+
+
 if __name__=='__main__':
     server_address=('172.16.16.102',6666)
     #remote_list()
     #remote_get('donalbebek.jpg')
-    remote_delete('donalbebek.jpg')
+    
+    # memanggil function delete
+    #remote_delete('donalbebek.jpg') 
+    
+    remote_upload('./test.jpg')
 
 

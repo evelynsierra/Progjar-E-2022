@@ -12,18 +12,25 @@ fp = FileProtocol()
 
 class ProcessTheClient(threading.Thread):
     def __init__(self, connection, address):
+        #print('something')
         self.connection = connection
         self.address = address
         threading.Thread.__init__(self)
 
     def run(self):
+        data_received = ""
         while True:
             data = self.connection.recv(32)
             if data:
-                d = data.decode()
-                hasil = fp.proses_string(d)
-                hasil=hasil+"\r\n\r\n"
-                self.connection.sendall(hasil.encode())
+                print('halow')
+                data_received += data.decode()
+                if "\r\n\r\n" in data_received:
+                    data_received.replace("\r\n\r\n", "")
+                    hasil = fp.proses_string(data_received)
+                    #print(hasil)
+                    hasil = hasil + "\r\n\r\n"
+                    self.connection.sendall(hasil.encode())
+                    break
             else:
                 break
         self.connection.close()
