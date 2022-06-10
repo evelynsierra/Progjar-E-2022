@@ -39,7 +39,7 @@ GET
   - status: ERROR
   - data: pesan kesalahan
   
-POST
+UPLOAD
 * TUJUAN : untuk mengupload file
 * PARAMETER :
     - PARAMETER1 : path file yang akan di upload
